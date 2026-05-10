@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ada Cezve'm — Menü</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --espresso:   #1C0F08;
+  --dark-wood:  #2E1A0F;
+  --wood:       #4A2810;
+  --mid-wood:   #6B3A1F;
+  --warm-brown: #8B5A35;
+  --caramel:    #B8763A;
+  --gold:       #C9943A;
+  --gold-light: #E3B86A;
+  --cream:      #F5EAD4;
+  --parchment:  #EDD9B0;
+  --warm-white: #FBF5E8;
+  --smoke:      #9E7B58;
+  --overlay:    rgba(20,10,5,0.72);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark-wood);
+  font-family: 'Crimson Pro', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--espresso);
+}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero {
+  position: relative;
+  height: 52vw;
+  max-height: 420px;
+  min-height: 240px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('Adacezvem-dukkan.jpg');
+  background-size: cover;
+  background-position: center 40%;
+  transform: scale(1.04);
+  transition: transform 8s ease;
+}
+.hero-bg.loaded { transform: scale(1); }
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20,10,5,0.25) 0%,
+    rgba(20,10,5,0.55) 50%,
+    rgba(20,10,5,0.88) 100%
+  );
+}
+
+/* Warm sepia tint overlay for white/light photos */
+.hero-tint {
+  position: absolute; inset: 0;
+  background: rgba(74,40,16,0.38);
+  mix-blend-mode: multiply;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  opacity: 0.85;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 7vw, 3.8rem);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  margin-bottom: 0.3rem;
+}
+
+.hero-title span {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.hero-sub {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+  color: var(--parchment);
+  opacity: 0.8;
+  letter-spacing: 0.08em;
+}
+
+.hero-divider {
+  width: 50px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 0.8rem auto 0;
+}
+
+/* ═══════════════════════════════
+   CATEGORY SCROLL
+═══════════════════════════════ */
+.cat-wrapper {
+  background: var(--dark-wood);
+  padding: 1.4rem 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(201,148,58,0.2);
+}
+
+.cat-scroll {
+  display: flex;
+  gap: 1.2rem;
+  padding: 0 1.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cat-scroll::-webkit-scrollbar { display: none; }
+
+.cat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.cat-item:active { transform: scale(0.94); }
+
+.cat-circle {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid rgba(201,148,58,0.3);
+  background: var(--wood);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+
+.cat-circle img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: absolute; inset: 0;
+}
+
+.cat-circle .cat-emoji {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
+.cat-item.active .cat-circle {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201,148,58,0.25), 0 0 16px rgba(201,148,58,0.3);
+}
+
+.cat-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--smoke);
+  text-align: center;
+  text-transform: uppercase;
+  max-width: 68px;
+  line-height: 1.3;
+  transition: color 0.25s;
+}
+.cat-item.active .cat-label { color: var(--gold-light); }
+
+/* ═══════════════════════════════
+   MENU BODY
+═══════════════════════════════ */
+.menu-body {
+  background: var(--warm-white);
+  min-height: 60vh;
+}
+
+/* Section */
+.menu-section {
+  display: none;
+  animation: fadeSlide 0.35s ease;
+}
+.menu-section.active { display: block; }
+
+@keyframes fadeSlide {
+  from { opacity:0; transform: translateY(12px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.section-header {
+  padding: 2rem 1.5rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.section-icon-wrap {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--wood), var(--mid-wood));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(74,40,16,0.3);
+}
+
+.section-title-wrap {}
+.section-eyebrow-sm {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  color: var(--caramel);
+  text-transform: uppercase;
+}
+.section-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--espresso);
+  line-height: 1.1;
+}
+
+/* Featured Bosna banner */
+.bosna-banner {
+  margin: 0 1.2rem 0.5rem;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--espresso) 0%, var(--wood) 100%);
+  display: flex;
+  min-height: 140px;
+  box-shadow: 0 6px 24px rgba(28,15,8,0.25);
+  position: relative;
+}
+
+.bosna-img {
+  flex: 0 0 140px;
+  background-image: url('bosna-kahve.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: var(--mid-wood);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.bosna-content {
+  padding: 1.3rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bosna-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--espresso);
+  background: var(--gold);
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+}
+
+.bosna-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--cream);
+  margin-bottom: 0.3rem;
+}
+
+.bosna-desc {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--parchment);
+  opacity: 0.7;
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+}
+
+.bosna-price {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+}
+
+/* Item list */
+.items-list {
+  padding: 0.4rem 0 1rem;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem 0.75rem 1.2rem;
+  border-bottom: 1px solid rgba(139,90,53,0.1);
+  gap: 1rem;
+  transition: background 0.18s;
+  cursor: pointer;
+}
+.item-row:active { background: rgba(201,148,58,0.07); }
+.item-row:last-child { border-bottom: none; }
+
+.item-img-wrap {
+  flex-shrink: 0;
+  width: 58px; height: 58px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--parchment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  border: 1px solid rgba(201,148,58,0.15);
+  position: relative;
+}
+
+.item-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: absolute; inset: 0;
+  border-radius: 10px;
+}
+
+.item-img-wrap .item-emoji {
+  position: relative;
+  z-index: 1;
+}
+
+.item-info { flex: 1; min-width: 0; }
+
+.item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--espresso);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.item-desc {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--smoke);
+  margin-top: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-price {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--caramel);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════
+   INFO SECTION
+═══════════════════════════════ */
+.info-section {
+  padding: 1.5rem 1.2rem 3rem;
+}
+
+.info-card-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.info-tile {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 1.2rem;
+  border: 1px solid rgba(201,148,58,0.2);
+}
+
+.info-tile.full { grid-column: 1 / -1; }
+
+.info-tile-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+.info-tile-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--caramel);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.info-tile-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  color: var(--espresso);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+.menu-footer {
+  background: var(--espresso);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid rgba(201,148,58,0.2);
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--gold-light);
+  margin-bottom: 0.3rem;
+}
+
+.footer-tagline {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  color: var(--smoke);
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 0.8rem;
+}
+
+.footer-sep {
+  width: 40px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 0 auto 0.8rem;
+}
+
+.footer-address {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.82rem;
+  color: var(--smoke);
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════
+   MODAL
+═══════════════════════════════ */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-bg.open { opacity: 1; pointer-events: all; }
+
+.modal-sheet {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.modal-bg.open .modal-sheet { transform: none; }
+
+.modal-img-area {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem 0.5rem;
+  overflow: hidden;
+}
+.modal-img-area img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+.modal-img-area .modal-emoji { font-size: 6rem; }
+.modal-img-grad { display: none; }
+
+.modal-body {
+  padding: 1rem 1.5rem 2.5rem;
+  text-align: center;
+}
+.modal-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  color: white;
+  margin-bottom: 0.3rem;
+}
+.modal-price {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  color: var(--gold-light);
+  margin-bottom: 1.2rem;
+}
+.modal-close {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 0.8rem 3rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.drag-handle { display: none; }
+.modal-close:active { background: var(--wood); }
+
+/* Drag handle */
+.drag-handle {
+  width: 36px; height: 4px;
+  background: rgba(139,90,53,0.25);
+  border-radius: 2px;
+  margin: 0.8rem auto 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--caramel); border-radius: 2px; }
+
+@media (min-width: 600px) {
+  .item-row { padding: 0.9rem 2rem; }
+  .item-img-wrap { width: 68px; height: 68px; }
+  .cat-circle { width: 76px; height: 76px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-tint"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Sakarya · Erenler</div>
+    <div class="hero-title"><span>Ada</span> Cezve'm</div>
+    <div class="hero-sub">Kahve &amp; Lezzet</div>
+    <div class="hero-divider"></div>
+  </div>
+</div>
+
+<!-- CATEGORY NAV -->
+<div class="cat-wrapper">
+  <div class="cat-scroll" id="catScroll"></div>
+</div>
+
+<!-- MENU BODY -->
+<div class="menu-body" id="menuBody"></div>
+
+<!-- FOOTER -->
+<footer class="menu-footer">
+  <div class="footer-logo">Ada Cezve'm</div>
+  <div class="footer-tagline">Her yudumda bir ada, her fincanda bir hatıra…</div>
+  <div class="footer-sep"></div>
+  <div class="footer-address">
+    Bağlar, Yavuz Selim Cd. No:48/A, 54200 Erenler/Sakarya<br>
+    10:30 – 00:00
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <div class="drag-handle"></div>
+    <div class="modal-img-area" id="modalImg">
+      <span class="modal-emoji" id="modalEmoji"></span>
+      <div class="modal-img-grad"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-close" onclick="closeModalDirect()">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Category emoji fallbacks ──
+const CAT_EMOJI = {
+  sicak: '☕', soguk: '🧊', bosna: '🫘',
+  caylar: '🍵', tatlilar: '🍰', 'soguk-icecekler': '🥤'
+};
+
+// ── Item emoji fallbacks ──
+const ITEM_EMOJI = {
+  'turk-kahvesi':'☕','dibek-kahvesi':'☕','menengic-kahvesi':'☕',
+  'sutlu-menengic':'☕','dibek-menengic':'☕','espresso':'☕',
+  'double-espresso':'☕','americano':'☕','filtre-kahve':'☕',
+  'capuchino':'☕','latte':'☕','sutlu-americano':'☕',
+  'sutlu-filtre':'☕','sicak-cikolata':'🍫','sahlep':'🌿',
+  'bosna-kahve':'🫘',
+  'ice-latte':'🧋','ice-latte-cilekli':'🍓','ice-americano':'🧊',
+  'ice-caramel-mac':'🧋','ice-filtre':'🧊','ice-mocha':'🍫',
+  'ice-white-mocha':'🥛','frozen-orman':'🫐','frozen-cilekli':'🍓',
+  'milkshake-cilekli':'🍓','milkshake-muzlu':'🍌','milkshake-cikolatali':'🍫',
+  'cay':'🍵','fincan-cay':'🍵','bitki-cayi':'🌿',
+  'fanta-kutu':'🟠','fanta-sise':'🟠',
+  'kola-kutu':'🥤','kola-sise':'🥤','gazoz':'🫧',
+  'meyveli-soda':'🫧','sade-soda':'🫧','churchill':'🥤',
+  'su-kucuk':'💧','su-buyuk':'💧'
+};
+
+let menuData = null;
+
+async function loadMenu() {
+  try {
+    const res = await fetch('./menu.json');
+    menuData = await res.json();
+  } catch(e) {
+    // fallback inline data if fetch fails
+    menuData = getFallbackData();
+  }
+  renderAll();
+}
+
+function renderAll() {
+  renderCategories();
+  renderSections();
+  activateCategory(menuData.categories[0].id);
+  // Hero bg
+  const bg = document.getElementById('heroBg');
+  bg.classList.add('loaded');
+}
+
+function renderCategories() {
+  const scroll = document.getElementById('catScroll');
+  scroll.innerHTML = '';
+  menuData.categories.forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'cat-item';
+    div.id = 'cat-' + cat.id;
+    div.onclick = () => activateCategory(cat.id);
+
+    const circle = document.createElement('div');
+    circle.className = 'cat-circle';
+
+    // Try image, fallback emoji
+    const img = document.createElement('img');
+    img.src = cat.image;
+    img.onerror = () => { img.style.display='none'; emoji.style.display=''; };
+    const emoji = document.createElement('span');
+    emoji.className = 'cat-emoji';
+    emoji.textContent = cat.icon || CAT_EMOJI[cat.id] || '☕';
+    emoji.style.display = 'none';
+    img.onload = () => { emoji.style.display='none'; };
+    circle.appendChild(img);
+    circle.appendChild(emoji);
+
+    const label = document.createElement('div');
+    label.className = 'cat-label';
+    label.textContent = cat.label;
+
+    div.appendChild(circle);
+    div.appendChild(label);
+    scroll.appendChild(div);
+  });
+}
+
+function renderSections() {
+  const body = document.getElementById('menuBody');
+  body.innerHTML = '';
+  menuData.categories.forEach(cat => {
+    const section = document.createElement('div');
+    section.className = 'menu-section';
+    section.id = 'section-' + cat.id;
+
+    // Special Bosna featured layout
+    if (cat.featured && cat.items.length === 1) {
+      section.innerHTML = `
+        <div class="section-header">
+          <div class="section-icon-wrap">${cat.icon}</div>
+          <div class="section-title-wrap">
+            <div class="section-eyebrow-sm">Özel Servis</div>
+            <div class="section-name">${cat.label}</div>
+          </div>
+        </div>
+        <div class="bosna-banner" onclick="openModal('${cat.items[0].name}','${cat.items[0].price}','${cat.items[0].image}','${ITEM_EMOJI[cat.items[0].id]||'🫘'}')">
+          <div class="bosna-img">
+            <img src="${cat.items[0].image}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+            <span style="position:relative;z-index:1;font-size:3.5rem">${ITEM_EMOJI[cat.items[0].id]||'🫘'}</span>
+          </div>
+          <div class="bosna-content">
+            ${cat.badge ? `<span class="bosna-badge">${cat.badge}</span>` : ''}
+            <div class="bosna-name">${cat.items[0].name}</div>
+            <div class="bosna-desc">${cat.description||''}</div>
+            <div class="bosna-price">₺ ${cat.items[0].price}</div>
+          </div>
+        </div>
+      `;
+    } else {
+      let html = `
+        <div class="section-header">
+          <div class="section-icon-wrap">${cat.icon}</div>
+          <div class="section-title-wrap">
+            <div class="section-eyebrow-sm">Ada Cezve'm</div>
+            <div class="section-name">${cat.label}</div>
+          </div>
+        </div>
+        <div class="items-list">
+      `;
+      cat.items.forEach(item => {
+        const em = ITEM_EMOJI[item.id] || '';
+        const badgeHtml = item.badge ? `<span style="display:inline-block;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.15em;color:var(--espresso);background:var(--gold);padding:0.1rem 0.45rem;border-radius:20px;margin-left:0.4rem;vertical-align:middle">${item.badge}</span>` : '';
+        const descHtml = item.desc ? `<div class="item-desc">${item.desc}</div>` : '';
+        html += `
+          <div class="item-row" onclick="openModal('${escQ(item.name)}','${item.price}','${escQ(item.image)}','${em}')">
+            <div class="item-img-wrap">
+              <img src="${escQ(item.image)}" onerror="this.style.display='none'" />
+              <span class="item-emoji">${em}</span>
+            </div>
+            <div class="item-info">
+              <div class="item-name">${item.name}${badgeHtml}</div>
+              ${descHtml}
+            </div>
+            <div class="item-price">₺ ${item.price}</div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      section.innerHTML = html;
+    }
+    body.appendChild(section);
+  });
+
+  // Info section
+  const info = document.createElement('div');
+  info.className = 'menu-section';
+  info.id = 'section-info';
+  info.innerHTML = `
+    <div class="section-header">
+      <div class="section-icon-wrap">ℹ️</div>
+      <div class="section-title-wrap">
+        <div class="section-eyebrow-sm">Bizi Tanıyın</div>
+        <div class="section-name">Ada Cezve'm</div>
+      </div>
+    </div>
+    <div class="info-section">
+      <div class="info-card-row">
+        <div class="info-tile">
+          <div class="info-tile-icon">🕐</div>
+          <div class="info-tile-label">Çalışma Saatleri</div>
+          <div class="info-tile-value">10:30 – 00:00</div>
+        </div>
+        <div class="info-tile">
+          <div class="info-tile-icon">💳</div>
+          <div class="info-tile-label">Ödeme</div>
+          <div class="info-tile-value">Nakit · Kart</div>
+        </div>
+        <div class="info-tile full">
+          <div class="info-tile-icon">📍</div>
+          <div class="info-tile-label">Adres</div>
+          <div class="info-tile-value">Bağlar, Yavuz Selim Cd. No:48/A, 54200 Erenler/Sakarya</div>
+        </div>
+      </div>
+      <div class="info-tile" style="margin-top:0">
+        <div class="info-tile-icon">⚠️</div>
+        <div class="info-tile-label">Allerji Bilgisi</div>
+        <div class="info-tile-value" style="font-size:0.85rem">Ürünlerimiz gluten, süt, fındık ve yumurta içerebilir. Özel beslenme ihtiyaçlarınız için personelimize danışın.</div>
+      </div>
+    </div>
+  `;
+  body.appendChild(info);
+}
+
+function activateCategory(id) {
+  // nav
+  document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
+  const catEl = document.getElementById('cat-' + id);
+  if (catEl) {
+    catEl.classList.add('active');
+    catEl.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+  }
+  // sections
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('section-' + id);
+  if (sec) sec.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.cat-wrapper').offsetTop - 1, behavior:'smooth' });
+}
+
+// Also add Info to category list after render
+function addInfoCat() {
+  const scroll = document.getElementById('catScroll');
+  const div = document.createElement('div');
+  div.className = 'cat-item';
+  div.id = 'cat-info';
+  div.onclick = () => activateCategory('info');
+  div.innerHTML = `
+    <div class="cat-circle"><span class="cat-emoji">ℹ️</span></div>
+    <div class="cat-label">Bilgi</div>
+  `;
+  scroll.appendChild(div);
+}
+
+function escQ(s) {
+  return String(s).replace(/'/g, "\\'");
+}
+
+// Modal
+function openModal(name, price, imgSrc, emoji) {
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalPrice').textContent = '₺ ' + price;
+  document.getElementById('modalEmoji').textContent = emoji;
+  const imgEl = document.getElementById('modalImg');
+  // Remove old img if any
+  imgEl.querySelectorAll('img').forEach(i=>i.remove());
+  if (imgSrc) {
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.onerror = () => img.remove();
+    img.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;';
+    imgEl.insertBefore(img, imgEl.firstChild);
+  }
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalBg')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function getFallbackData() {
+  return {
+    restaurant: { name:"Ada Cezve'm", slogan:"Kahve & Lezzet" },
+    categories: []
+  };
+}
+
+loadMenu().then(() => addInfoCat());
+</script>
+</body>
+</html>
