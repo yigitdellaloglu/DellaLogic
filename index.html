@@ -2,884 +2,1980 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Ada Cezve'm — Menü</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Profesyonel yazılım danışmanlığı, web geliştirme, mobil uygulama ve özel yazılım çözümleri. İşinizi dijitale taşıyın.">
+<title>Dellalogic — Yazılım ile İşinizi Büyütün</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root {
-  --espresso:   #1C0F08;
-  --dark-wood:  #2E1A0F;
-  --wood:       #4A2810;
-  --mid-wood:   #6B3A1F;
-  --warm-brown: #8B5A35;
-  --caramel:    #B8763A;
-  --gold:       #C9943A;
-  --gold-light: #E3B86A;
-  --cream:      #F5EAD4;
-  --parchment:  #EDD9B0;
-  --warm-white: #FBF5E8;
-  --smoke:      #9E7B58;
-  --overlay:    rgba(20,10,5,0.72);
-}
+  :root {
+    --bg-deep: #080c14;
+    --bg-surface: #0d1220;
+    --bg-card: #111827;
+    --bg-card-hover: #151e30;
+    --accent-blue: #3b82f6;
+    --accent-indigo: #6366f1;
+    --accent-violet: #8b5cf6;
+    --accent-glow: rgba(99,102,241,0.15);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #475569;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(99,102,241,0.4);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
 
-body {
-  background: var(--dark-wood);
-  font-family: 'Crimson Pro', serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: var(--espresso);
-}
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-/* ═══════════════════════════════
-   HERO
-═══════════════════════════════ */
-.hero {
-  position: relative;
-  height: 52vw;
-  max-height: 420px;
-  min-height: 240px;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-}
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
 
-.hero-bg {
-  position: absolute; inset: 0;
-  background-image: url('Adacezvem-dukkan.jpg');
-  background-size: cover;
-  background-position: center 40%;
-  transform: scale(1.04);
-  transition: transform 8s ease;
-}
-.hero-bg.loaded { transform: scale(1); }
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 0 2rem;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+  }
 
-.hero-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(20,10,5,0.25) 0%,
-    rgba(20,10,5,0.55) 50%,
-    rgba(20,10,5,0.88) 100%
-  );
-}
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #e0e7ff, #a5b4fc, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
 
-/* Warm sepia tint overlay for white/light photos */
-.hero-tint {
-  position: absolute; inset: 0;
-  background: rgba(74,40,16,0.38);
-  mix-blend-mode: multiply;
-}
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: 0 1.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition);
+    letter-spacing: 0.01em;
+  }
 
-.hero-eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.35em;
-  color: var(--gold-light);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  opacity: 0.85;
-}
+  .nav-links a:hover { color: var(--text-primary); }
 
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 7vw, 3.8rem);
-  font-weight: 700;
-  color: var(--cream);
-  line-height: 1;
-  letter-spacing: 0.04em;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
-  margin-bottom: 0.3rem;
-}
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+    color: #fff !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 500 !important;
+    transition: opacity var(--transition) !important;
+  }
 
-.hero-title span {
-  color: var(--gold-light);
-  font-style: italic;
-}
+  .nav-cta:hover { opacity: 0.85; color: #fff !important; }
 
-.hero-sub {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-  color: var(--parchment);
-  opacity: 0.8;
-  letter-spacing: 0.08em;
-}
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
 
-.hero-divider {
-  width: 50px; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  margin: 0.8rem auto 0;
-}
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: var(--transition);
+  }
 
-/* ═══════════════════════════════
-   CATEGORY SCROLL
-═══════════════════════════════ */
-.cat-wrapper {
-  background: var(--dark-wood);
-  padding: 1.4rem 0 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-  border-bottom: 1px solid rgba(201,148,58,0.2);
-}
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
 
-.cat-scroll {
-  display: flex;
-  gap: 1.2rem;
-  padding: 0 1.2rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.cat-scroll::-webkit-scrollbar { display: none; }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
 
-.cat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-.cat-item:active { transform: scale(0.94); }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-indigo);
+    margin-bottom: 1rem;
+  }
 
-.cat-circle {
-  width: 68px; height: 68px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2.5px solid rgba(201,148,58,0.3);
-  background: var(--wood);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.7rem;
-  transition: border-color 0.25s, box-shadow 0.25s;
-  position: relative;
-}
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent-indigo);
+  }
 
-.cat-circle img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  position: absolute; inset: 0;
-}
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
 
-.cat-circle .cat-emoji {
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
-}
+  .section-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.7;
+  }
 
-.cat-item.active .cat-circle {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 2px rgba(201,148,58,0.25), 0 0 16px rgba(201,148,58,0.3);
-}
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 72px;
+    overflow: hidden;
+  }
 
-.cat-label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  color: var(--smoke);
-  text-align: center;
-  text-transform: uppercase;
-  max-width: 68px;
-  line-height: 1.3;
-  transition: color 0.25s;
-}
-.cat-item.active .cat-label { color: var(--gold-light); }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
 
-/* ═══════════════════════════════
-   MENU BODY
-═══════════════════════════════ */
-.menu-body {
-  background: var(--warm-white);
-  min-height: 60vh;
-}
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+  }
 
-/* Section */
-.menu-section {
-  display: none;
-  animation: fadeSlide 0.35s ease;
-}
-.menu-section.active { display: block; }
+  .hero-orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #6366f1, transparent 70%);
+    top: -100px;
+    right: -100px;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
 
-@keyframes fadeSlide {
-  from { opacity:0; transform: translateY(12px); }
-  to   { opacity:1; transform: translateY(0); }
-}
+  .hero-orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #8b5cf6, transparent 70%);
+    bottom: 0;
+    left: -150px;
+    animation: drift 15s ease-in-out infinite alternate-reverse;
+  }
 
-.section-header {
-  padding: 2rem 1.5rem 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
+  .hero-orb-3 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #3b82f6, transparent 70%);
+    top: 50%;
+    left: 40%;
+    animation: drift 10s ease-in-out infinite alternate;
+  }
 
-.section-icon-wrap {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--wood), var(--mid-wood));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem;
-  flex-shrink: 0;
-  box-shadow: 0 3px 12px rgba(74,40,16,0.3);
-}
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 30px) scale(1.05); }
+  }
 
-.section-title-wrap {}
-.section-eyebrow-sm {
-  font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.25em;
-  color: var(--caramel);
-  text-transform: uppercase;
-}
-.section-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-style: italic;
-  color: var(--espresso);
-  line-height: 1.1;
-}
+  /* Grid overlay */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+  }
 
-/* Featured Bosna banner */
-.bosna-banner {
-  margin: 0 1.2rem 0.5rem;
-  border-radius: 14px;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--espresso) 0%, var(--wood) 100%);
-  display: flex;
-  min-height: 140px;
-  box-shadow: 0 6px 24px rgba(28,15,8,0.25);
-  position: relative;
-}
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 5rem 0;
+  }
 
-.bosna-img {
-  flex: 0 0 140px;
-  background-image: url('bosna-kahve.jpg');
-  background-size: cover;
-  background-position: center;
-  background-color: var(--mid-wood);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-}
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99,102,241,0.1);
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #a5b4fc;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease both;
+  }
 
-.bosna-content {
-  padding: 1.3rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #a5b4fc;
+    animation: pulse 2s ease infinite;
+  }
 
-.bosna-badge {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  color: var(--espresso);
-  background: var(--gold);
-  padding: 0.15rem 0.6rem;
-  border-radius: 20px;
-  margin-bottom: 0.5rem;
-  width: fit-content;
-}
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
 
-.bosna-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  font-style: italic;
-  color: var(--cream);
-  margin-bottom: 0.3rem;
-}
+  .hero-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.7s ease 0.1s both;
+  }
 
-.bosna-desc {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: 0.85rem;
-  color: var(--parchment);
-  opacity: 0.7;
-  line-height: 1.4;
-  margin-bottom: 0.6rem;
-}
+  .hero-heading .line-gradient {
+    background: linear-gradient(135deg, #c7d2fe, #a5b4fc, #818cf8, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-.bosna-price {
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  color: var(--gold-light);
-}
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+    animation: fadeInUp 0.7s ease 0.2s both;
+  }
 
-/* Item list */
-.items-list {
-  padding: 0.4rem 0 1rem;
-}
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.7s ease 0.3s both;
+  }
 
-.item-row {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem 0.75rem 1.2rem;
-  border-bottom: 1px solid rgba(139,90,53,0.1);
-  gap: 1rem;
-  transition: background 0.18s;
-  cursor: pointer;
-}
-.item-row:active { background: rgba(201,148,58,0.07); }
-.item-row:last-child { border-bottom: none; }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+    color: #fff;
+    padding: 0.85rem 1.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-body);
+  }
 
-.item-img-wrap {
-  flex-shrink: 0;
-  width: 58px; height: 58px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--parchment);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  border: 1px solid rgba(201,148,58,0.15);
-  position: relative;
-}
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background var(--transition);
+  }
 
-.item-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  position: absolute; inset: 0;
-  border-radius: 10px;
-}
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(99,102,241,0.35); }
+  .btn-primary:hover::before { background: rgba(255,255,255,0.08); }
 
-.item-img-wrap .item-emoji {
-  position: relative;
-  z-index: 1;
-}
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0.85rem 1.75rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    font-family: var(--font-body);
+  }
 
-.item-info { flex: 1; min-width: 0; }
+  .btn-secondary:hover {
+    border-color: var(--border-hover);
+    background: var(--accent-glow);
+    transform: translateY(-2px);
+  }
 
-.item-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  color: var(--espresso);
-  font-weight: 600;
-  line-height: 1.2;
-}
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    animation: fadeInUp 0.7s ease 0.4s both;
+  }
 
-.item-desc {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  font-size: 0.82rem;
-  color: var(--smoke);
-  margin-top: 0.1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #e0e7ff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
 
-.item-price {
-  font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
-  color: var(--caramel);
-  font-weight: 500;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
 
-/* ═══════════════════════════════
-   INFO SECTION
-═══════════════════════════════ */
-.info-section {
-  padding: 1.5rem 1.2rem 3rem;
-}
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-.info-card-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
-}
+  /* SERVICES */
+  #services {
+    padding: 7rem 0;
+    background: var(--bg-surface);
+  }
 
-.info-tile {
-  background: var(--cream);
-  border-radius: 12px;
-  padding: 1.2rem;
-  border: 1px solid rgba(201,148,58,0.2);
-}
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: end;
+    margin-bottom: 3.5rem;
+  }
 
-.info-tile.full { grid-column: 1 / -1; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+  }
 
-.info-tile-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
-.info-tile-label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  color: var(--caramel);
-  text-transform: uppercase;
-  margin-bottom: 0.25rem;
-}
-.info-tile-value {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.95rem;
-  color: var(--espresso);
-  font-style: italic;
-  line-height: 1.4;
-}
+  .service-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* ═══════════════════════════════
-   FOOTER
-═══════════════════════════════ */
-.menu-footer {
-  background: var(--espresso);
-  text-align: center;
-  padding: 2rem 1.5rem;
-  border-top: 1px solid rgba(201,148,58,0.2);
-}
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet));
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
 
-.footer-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  font-style: italic;
-  color: var(--gold-light);
-  margin-bottom: 0.3rem;
-}
+  .service-card:hover {
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+    transform: translateY(-4px);
+  }
 
-.footer-tagline {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  color: var(--smoke);
-  font-size: 0.9rem;
-  opacity: 0.8;
-  margin-bottom: 0.8rem;
-}
+  .service-card:hover::before { opacity: 1; }
 
-.footer-sep {
-  width: 40px; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  margin: 0 auto 0.8rem;
-}
+  .service-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--accent-glow);
+    border: 1px solid rgba(99,102,241,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    color: var(--accent-indigo);
+  }
 
-.footer-address {
-  font-family: 'Crimson Pro', serif;
-  font-size: 0.82rem;
-  color: var(--smoke);
-  opacity: 0.6;
-  line-height: 1.5;
-}
+  .service-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
 
-/* ═══════════════════════════════
-   MODAL
-═══════════════════════════════ */
-.modal-bg {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.modal-bg.open { opacity: 1; pointer-events: all; }
+  .service-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
 
-.modal-sheet {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.modal-bg.open .modal-sheet { transform: none; }
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1.25rem;
+  }
 
-.modal-img-area {
-  width: 100%;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3.5rem 1rem 0.5rem;
-  overflow: hidden;
-}
-.modal-img-area img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 10px;
-}
-.modal-img-area .modal-emoji { font-size: 6rem; }
-.modal-img-grad { display: none; }
+  .tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #a5b4fc;
+    background: rgba(99,102,241,0.1);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 50px;
+    padding: 3px 10px;
+    letter-spacing: 0.02em;
+  }
 
-.modal-body {
-  padding: 1rem 1.5rem 2.5rem;
-  text-align: center;
-}
-.modal-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  font-style: italic;
-  color: white;
-  margin-bottom: 0.3rem;
-}
-.modal-price {
-  font-family: 'Cinzel', serif;
-  font-size: 1.2rem;
-  color: var(--gold-light);
-  margin-bottom: 1.2rem;
-}
-.modal-close {
-  font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  background: rgba(255,255,255,0.15);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.25);
-  padding: 0.8rem 3rem;
-  border-radius: 30px;
-  cursor: pointer;
-}
-.drag-handle { display: none; }
-.modal-close:active { background: var(--wood); }
+  /* WHY US */
+  #why-us {
+    padding: 7rem 0;
+  }
 
-/* Drag handle */
-.drag-handle {
-  width: 36px; height: 4px;
-  background: rgba(139,90,53,0.25);
-  border-radius: 2px;
-  margin: 0.8rem auto 0;
-}
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--caramel); border-radius: 2px; }
+  .why-visual {
+    position: relative;
+    height: 460px;
+  }
 
-@media (min-width: 600px) {
-  .item-row { padding: 0.9rem 2rem; }
-  .item-img-wrap { width: 68px; height: 68px; }
-  .cat-circle { width: 76px; height: 76px; }
-}
+  .why-visual-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05));
+    border: 1px solid var(--border);
+  }
+
+  .why-floating-card {
+    position: absolute;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+
+  .why-floating-card .icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .why-floating-card .text strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .why-floating-card .text span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .fc-1 { top: 14%; left: -20px; animation: float 6s ease-in-out infinite; }
+  .fc-2 { top: 44%; right: -20px; animation: float 7s ease-in-out infinite 1s; }
+  .fc-3 { bottom: 14%; left: 12%; animation: float 5s ease-in-out infinite 0.5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .center-badge {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.3;
+    box-shadow: 0 0 60px rgba(99,102,241,0.3);
+  }
+
+  .why-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .why-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .why-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-glow);
+    border: 1px solid rgba(99,102,241,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-indigo);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .why-text strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .why-text p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* PROJECTS */
+  #projects {
+    padding: 7rem 0;
+    background: var(--bg-surface);
+  }
+
+  .projects-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .projects-header .section-subtitle {
+    margin: 0 auto;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    cursor: default;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .project-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+  }
+
+  .project-card:hover .project-overlay {
+    opacity: 1;
+  }
+
+  .project-thumb {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-thumb-bg {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    opacity: 0.6;
+  }
+
+  .project-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8,12,20,0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity var(--transition);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .project-result {
+    font-size: 0.8rem;
+    color: #86efac;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .project-body {
+    padding: 1.5rem;
+  }
+
+  .project-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+  }
+
+  .project-desc-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  .project-techs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tech-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(59,130,246,0.1);
+    color: #93c5fd;
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 50px;
+    padding: 2px 9px;
+    letter-spacing: 0.02em;
+  }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    padding: 7rem 0;
+  }
+
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .testimonials-header .section-subtitle {
+    margin: 0 auto;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .testimonial-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+  }
+
+  .stars {
+    color: #fbbf24;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.25rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+
+  .author-role {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .ref-card {
+    background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05));
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .ref-card-full {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: start;
+  }
+
+  .ref-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-indigo);
+    margin-bottom: 8px;
+  }
+
+  .ref-project-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .ref-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .ref-outcome {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(134,239,172,0.1);
+    border: 1px solid rgba(134,239,172,0.2);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: #86efac;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* PROCESS */
+  #process {
+    padding: 7rem 0;
+    background: var(--bg-surface);
+  }
+
+  .process-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-indigo), transparent);
+    z-index: 0;
+  }
+
+  .process-step {
+    text-align: center;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-num {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent-indigo);
+    transition: border-color var(--transition), background var(--transition);
+  }
+
+  .process-step:hover .step-num {
+    background: var(--accent-glow);
+    border-color: var(--accent-indigo);
+  }
+
+  .step-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .step-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  /* BLOG */
+  #blog {
+    padding: 7rem 0;
+  }
+
+  .blog-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .blog-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .blog-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+  }
+
+  .blog-thumb {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .blog-cat {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: rgba(99,102,241,0.15);
+    border: 1px solid rgba(99,102,241,0.3);
+    color: #a5b4fc;
+    padding: 3px 10px;
+    border-radius: 50px;
+  }
+
+  .blog-body {
+    padding: 1.5rem;
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .blog-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-excerpt {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .blog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-indigo);
+    text-decoration: none;
+    transition: gap var(--transition);
+  }
+
+  .blog-link:hover { gap: 10px; }
+
+  /* CONTACT */
+  #contact {
+    padding: 7rem 0;
+    background: var(--bg-surface);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .contact-info p {
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-glow);
+    border: 1px solid rgba(99,102,241,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-indigo);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-detail strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .contact-detail span {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .social-link {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: border-color var(--transition), color var(--transition), background var(--transition), transform var(--transition);
+  }
+
+  .social-link:hover {
+    border-color: var(--accent-indigo);
+    color: var(--accent-indigo);
+    background: var(--accent-glow);
+    transform: translateY(-3px);
+  }
+
+  .contact-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color var(--transition), background var(--transition);
+  }
+
+  .form-input:focus {
+    border-color: var(--accent-indigo);
+    background: rgba(99,102,241,0.05);
+  }
+
+  .form-input::placeholder { color: var(--text-muted); }
+
+  textarea.form-input {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(37,211,102,0.1);
+    border: 1px solid rgba(37,211,102,0.25);
+    color: #4ade80;
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-top: 0.75rem;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  }
+
+  .wa-btn:hover {
+    background: rgba(37,211,102,0.18);
+    border-color: rgba(37,211,102,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg-deep);
+    border-top: 1px solid var(--border);
+    padding: 4rem 0 2rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-brand .logo {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #e0e7ff, #a5b4fc, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+    display: inline-block;
+  }
+
+  .footer-brand p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-col ul a {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .footer-col ul a:hover { color: var(--text-primary); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-copyright {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 72px;
+      left: 0; right: 0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      gap: 1.25rem;
+    }
+    .hamburger { display: flex; }
+    .services-header { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-visual { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .ref-card { grid-column: span 1; grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+    .blog-grid { grid-template-columns: 1fr; }
+    .blog-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 0 1.25rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr; }
+  }
+
+  /* GRADIENT THUMB COLORS */
+  .gt-blue { background: linear-gradient(135deg, #1e3a5f, #0d2347); }
+  .gt-violet { background: linear-gradient(135deg, #2d1b69, #1a0f47); }
+  .gt-teal { background: linear-gradient(135deg, #0f3d3a, #062b29); }
+  .gt-emerald { background: linear-gradient(135deg, #064e3b, #022c22); }
+  .gt-amber { background: linear-gradient(135deg, #451a03, #292400); }
+  .gt-indigo { background: linear-gradient(135deg, #1e1b4b, #110e2e); }
+  /* CUSTOM CURSOR */
+  * { cursor: none !important; }
+  #c-dot {
+    position: fixed;
+    width: 7px;
+    height: 7px;
+    background: #a78bfa;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: normal;
+  }
+  #c-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+  }
+  #c-ring svg {
+    width: 100%;
+    height: 100%;
+    animation: ring-spin 2.2s linear infinite;
+  }
+  @keyframes ring-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  body.cursor-hover #c-dot {
+    width: 5px;
+    height: 5px;
+    background: #c4b5fd;
+  }
+  body.cursor-hover #c-ring {
+    width: 50px;
+    height: 50px;
+  }
+  body.cursor-hover #c-ring svg {
+    animation: ring-spin 1s linear infinite;
+  }
+  @media (hover: none) {
+    * { cursor: auto !important; }
+    #c-dot, #c-ring { display: none; }
+  }
 </style>
 </head>
 <body>
+<div id="c-dot"></div>
+<div id="c-ring">
+  <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+    <!-- Full faint ring -->
+    <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(139,92,246,0.18)" stroke-width="1"/>
+    <!-- Spinning arc - 120deg gap -->
+    <circle cx="18" cy="18" r="16" fill="none"
+      stroke="url(#cg)" stroke-width="1.5"
+      stroke-dasharray="67 34"
+      stroke-linecap="round"/>
+    <!-- Small dot on ring at 0deg -->
+    <circle cx="34" cy="18" r="2" fill="#818cf8"/>
+    <defs>
+      <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#6366f1"/>
+        <stop offset="100%" stop-color="#a78bfa"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Della<span style="-webkit-text-fill-color:inherit;background:inherit;">L</span>ogic</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Hizmetler</a></li>
+    <li><a href="#projects">Projeler</a></li>
+    <li><a href="#testimonials">Referanslar</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact" class="nav-cta">Ücretsiz Danışma</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-bg" id="heroBg"></div>
-  <div class="hero-tint"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Sakarya · Erenler</div>
-    <div class="hero-title"><span>Ada</span> Cezve'm</div>
-    <div class="hero-sub">Kahve &amp; Lezzet</div>
-    <div class="hero-divider"></div>
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-grid"></div>
   </div>
-</div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Profesyonel Yazılım Danışmanlığı
+      </div>
+      <h1 class="hero-heading">
+        Yazılım ile<br>
+        <span class="line-gradient">işinizi büyütün.</span>
+      </h1>
+      <p class="hero-desc">
+        Fikrinizden lansmana kadar her adımda yanınızdayız. Modern teknolojilerle ölçeklenebilir, hızlı ve güvenilir sistemler inşa ediyoruz.
+      </p>
+      <div class="hero-buttons">
+        <a href="#services" class="btn-primary">
+          <i class="fa-solid fa-layer-group"></i> Hizmetlerimiz
+        </a>
+        <a href="#contact" class="btn-secondary">
+          <i class="fa-solid fa-calendar-check"></i> Ücretsiz Danışma Al
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Tamamlanan Proje</div>
+        </div>
+        <div>
+          <div class="stat-num">1 yıl</div>
+          <div class="stat-label">Sektör Deneyimi</div>
+        </div>
+        <div>
+          <div class="stat-num">%100</div>
+          <div class="stat-label">Müşteri Memnuniyeti</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- CATEGORY NAV -->
-<div class="cat-wrapper">
-  <div class="cat-scroll" id="catScroll"></div>
-</div>
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="services-header">
+      <div class="reveal">
+        <div class="section-label">Hizmetler</div>
+        <h2 class="section-title">İhtiyacınız olan her çözüm</h2>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p class="section-subtitle">Fikrin olsun ya da olmasın — doğru yaklaşımı birlikte buluruz.</p>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fa-solid fa-globe"></i></div>
+        <div class="service-name">Web Sitesi</div>
+        <p class="service-desc">Kurumsal ve ticari web siteleri. Hızlı, mobil uyumlu, SEO dostu. Fikrinizi dijitale taşıyoruz.</p>
+        <div class="service-tags">
+          <span class="tag">HTML/CSS</span><span class="tag">React</span><span class="tag">SEO</span>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><i class="fa-solid fa-qrcode"></i></div>
+        <div class="service-name">QR & Dijital Menü</div>
+        <p class="service-desc">Kafeler ve restoranlar için kategori bazlı dijital menü sistemleri. QR okutarak anında erişim, anlık güncelleme.</p>
+        <div class="service-tags">
+          <span class="tag">QR Kod</span><span class="tag">Yönetim Paneli</span><span class="tag">Mobil Uyumlu</span>
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+        <div class="service-name">Küçük Yazılımlar</div>
+        <p class="service-desc">Otomasyon scriptleri, bot geliştirme, veri işleme araçları ve işinizi kolaylaştıran küçük ölçekli çözümler.</p>
+        <div class="service-tags">
+          <span class="tag">Python</span><span class="tag">Otomasyon</span><span class="tag">Bot</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><i class="fa-solid fa-desktop"></i></div>
+        <div class="service-name">Görsel Programlama</div>
+        <p class="service-desc">Masaüstü uygulamalar, arayüz geliştirme ve görsel tabanlı yazılım çözümleri. Kullanımı kolay, pratik araçlar.</p>
+        <div class="service-tags">
+          <span class="tag">Python GUI</span><span class="tag">Tkinter</span><span class="tag">Masaüstü</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- MENU BODY -->
-<div class="menu-body" id="menuBody"></div>
+<!-- WHY US -->
+<section id="why-us">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-visual reveal">
+        <div class="why-visual-bg"></div>
+        <div class="center-badge">✦<br>Premium<br>Kalite</div>
+        <div class="why-floating-card fc-1">
+          <div class="icon" style="background:rgba(99,102,241,0.15);color:#818cf8;">⚡</div>
+          <div class="text"><strong>Hızlı Teslimat</strong><span>2–6 hafta ortalama</span></div>
+        </div>
+        <div class="why-floating-card fc-2">
+          <div class="icon" style="background:rgba(134,239,172,0.12);color:#4ade80;">✓</div>
+          <div class="text"><strong>%98 Başarı Oranı</strong><span>Zamanında teslim</span></div>
+        </div>
+        <div class="why-floating-card fc-3">
+          <div class="icon" style="background:rgba(251,191,36,0.12);color:#fbbf24;">★</div>
+          <div class="text"><strong>35+ Referans</strong><span>Memnun müşteriler</span></div>
+        </div>
+      </div>
+      <div class="why-right">
+        <div class="reveal">
+          <div class="section-label">Neden Biz?</div>
+          <h2 class="section-title">Sonuç odaklı,<br>güvenilir bir partner</h2>
+          <p class="section-subtitle" style="margin-bottom:2.5rem;">Sadece kod yazmıyoruz — işinizin büyümesini sağlayan sistemler kuruyoruz.</p>
+        </div>
+        <div class="why-features">
+          <div class="why-item reveal">
+            <div class="why-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="why-text">
+              <strong>Hızlı Teslimat</strong>
+              <p>Çevik süreçlerle hız kaybetmeden kaliteli ürünler teslim ediyoruz. Her sprint'te görünür ilerleme.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-1">
+            <div class="why-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="why-text">
+              <strong>Ölçeklenebilir Sistemler</strong>
+              <p>Startup'tan kurumsal boyuta büyürken yazılımınız da büyür. Cloud-native, modüler mimari.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-2">
+            <div class="why-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div class="why-text">
+              <strong>Modern Teknolojiler</strong>
+              <p>React, Next.js, Python, AWS — her proje için en güncel ve kanıtlanmış stack'i seçiyoruz.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-3">
+            <div class="why-icon"><i class="fa-solid fa-handshake"></i></div>
+            <div class="why-text">
+              <strong>Şeffaf İletişim</strong>
+              <p>Düzenli raporlar, anlık güncellemeler. Süreçte her zaman ne olduğunu bilirsiniz.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="projects-header reveal">
+      <div class="section-label">Portfolyo</div>
+      <h2 class="section-title">Seçili Projeler</h2>
+      <p class="section-subtitle">Her proje, bir problemi çözmek için tasarlandı. İşte sonuçlar.</p>
+    </div>
+    <div class="projects-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+      <div class="project-card reveal">
+        <div class="project-thumb gt-blue">
+          <div class="project-thumb-bg">☕</div>
+          <div class="project-overlay">
+            <div class="project-result"><i class="fa-solid fa-arrow-trend-up"></i> Sipariş süresi %40 azaldı</div>
+            <p style="font-size:0.8rem;color:#94a3b8;line-height:1.5">Dijital menüye geçişle garson yükü önemli ölçüde düştü</p>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Ada Cezvem — QR Menü</div>
+          <p class="project-desc-text">Kategori bazlı dijital menü sistemi. QR kod okutarak erişim, anlık güncelleme paneli, mobil uyumlu tasarım.</p>
+          <div class="project-techs">
+            <span class="tech-tag">HTML/CSS</span><span class="tech-tag">JavaScript</span><span class="tech-tag">QR Kod</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card reveal reveal-delay-1" style="opacity:0.5;pointer-events:none;">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1a1f2e,#111827);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:#475569;">
+            <div style="font-size:2rem;margin-bottom:8px;">🔒</div>
+            <div style="font-size:0.8rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Yakında</div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-name" style="color:#475569;">Yeni Proje</div>
+          <p class="project-desc-text" style="color:#334155;">Devam eden projeler burada yayınlanacak.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <div class="section-label">Referanslar</div>
+      <h2 class="section-title">Gerçek Projeler</h2>
+      <p class="section-subtitle">Tamamlanan projeler ve elde edilen sonuçlar.</p>
+    </div>
+    <!-- Real Project References only -->
+    <div style="max-width:700px;margin:0 auto;">
+      <div class="ref-card reveal" style="grid-template-columns:1fr;gap:1.5rem;">
+        <div>
+          <div class="ref-label">Gerçek Proje Referansı</div>
+          <div class="ref-project-name">Ada Cezvem — QR Menü Sistemi</div>
+          <p class="ref-desc">Dijital kategori bazlı menü sistemi. Müşteriler QR kod okutarak menüye erişiyor, işletme anlık güncelleme yapabiliyor. Kağıt menü maliyeti sıfırlandı.</p>
+        </div>
+        <div class="ref-outcome" style="width:fit-content;">
+          <i class="fa-solid fa-arrow-trend-up"></i> Sipariş süreci %40 hızlandı
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="process-header reveal">
+      <div class="section-label">Süreç</div>
+      <h2 class="section-title">Nasıl çalışıyoruz?</h2>
+      <p class="section-subtitle" style="margin:0 auto;">Fikrinizden canlıya — her adım şeffaf ve hızlı.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Analiz</div>
+        <p class="step-desc">İhtiyaçlarınızı dinler, kapsam ve hedefleri netleştiririz.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-num">02</div>
+        <div class="step-title">Tasarım</div>
+        <p class="step-desc">Wireframe ve prototiplerle görsel deneyimi şekillendiririz.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-num">03</div>
+        <div class="step-title">Geliştirme</div>
+        <p class="step-desc">Sprint'ler halinde, şeffaf süreçle kod yazılır.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-num">04</div>
+        <div class="step-title">Test</div>
+        <p class="step-desc">Kapsamlı QA testleriyle sıfır hata garantisi amaçlanır.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-4">
+        <div class="step-num">05</div>
+        <div class="step-title">Teslim</div>
+        <p class="step-desc">Canlıya alım, eğitim ve süregelen destek.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="container">
+    <div class="blog-header">
+      <div class="reveal">
+        <div class="section-label">Blog</div>
+        <h2 class="section-title">Güncel içerikler</h2>
+      </div>
+      <a href="#" class="btn-secondary reveal" style="white-space:nowrap;">Tüm yazılar <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card reveal">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#1e1b4b,#111827)">
+          <span>📱</span>
+          <span class="blog-cat">Teknoloji</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><i class="fa-regular fa-calendar"></i> 15 Nisan 2026 &bull; 5 dk okuma</div>
+          <h3 class="blog-title">QR Menü Sistemi Nedir? İşletmenize Faydaları</h3>
+          <p class="blog-excerpt">Dijital menüye geçmek isteyen işletmeler için kapsamlı rehber. Maliyet, kurulum ve müşteri deneyimi.</p>
+          <a href="#" class="blog-link">Devamını oku <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="blog-card reveal reveal-delay-1">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#0f3d3a,#111827)">
+          <span>🏪</span>
+          <span class="blog-cat">İşletme</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><i class="fa-regular fa-calendar"></i> 8 Nisan 2026 &bull; 4 dk okuma</div>
+          <h3 class="blog-title">Küçük İşletmeler İçin Web Sitesi Önemi</h3>
+          <p class="blog-excerpt">2026'da web sitesi olmayan işletme görünmez oluyor. Dijital varlığı neden acilen kurmanız gerektiğini anlattık.</p>
+          <a href="#" class="blog-link">Devamını oku <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="blog-card reveal reveal-delay-2">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,#2d1b69,#111827)">
+          <span>🚀</span>
+          <span class="blog-cat">Trendler</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><i class="fa-regular fa-calendar"></i> 1 Nisan 2026 &bull; 7 dk okuma</div>
+          <h3 class="blog-title">2026 Yazılım Trendleri: Nereye Gidiyoruz?</h3>
+          <p class="blog-excerpt">AI entegrasyonu, edge computing ve low-code platformların yükselişi. Yazılım dünyasında bu yılın öne çıkan trendleri.</p>
+          <a href="#" class="blog-link">Devamını oku <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="section-label">İletişim</div>
+        <h2>Ücretsiz danışma alın</h2>
+        <p>Projenizi anlatın, size en uygun çözümü ücretsiz değerlendirelim. Formu doldurun ya da direkt yazın.</p>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="contact-detail">
+            <strong>E-posta</strong>
+            <span>yigitdellaloglu@gmail.com</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="contact-detail">
+            <strong>WhatsApp</strong>
+            <span>+90 553 059 70 02</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fa-brands fa-instagram"></i></div>
+          <div class="contact-detail">
+            <strong>Instagram</strong>
+            <span>@dellalogic.co</span>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="https://instagram.com/dellalogic.co" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/in/yigitdellaloglu" target="_blank" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/yigitdellaloglu" target="_blank" class="social-link"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="social-link" title="Yakında"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="contact-form reveal reveal-delay-1">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Adınız</label>
+            <input type="text" class="form-input" placeholder="Yiğit">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Soyadınız</label>
+            <input type="text" class="form-input" placeholder="Dellaloğlu">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-posta</label>
+          <input type="email" class="form-input" placeholder="ornek@gmail.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Şirket / Marka</label>
+          <input type="text" class="form-input" placeholder="Şirket adınız (opsiyonel)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Proje Açıklaması</label>
+          <textarea class="form-input" placeholder="Projenizi kısaca anlatın: Ne yapmak istiyorsunuz, hangi sorunu çözmek istiyorsunuz?"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;border-radius:var(--radius-md);" onclick="alert('Mesajınız alındı! En kısa sürede size döneceğiz.')">
+          <i class="fa-solid fa-paper-plane"></i> Ücretsiz Danışma Talep Et
+        </button>
+        <a href="https://wa.me/905530597002" target="_blank" class="wa-btn">
+          <i class="fa-brands fa-whatsapp" style="font-size:1.1rem"></i> WhatsApp ile Direkt Yaz
+        </a>
+        <a href="https://instagram.com/dellalogic.co" target="_blank" class="wa-btn" style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.25);color:#a5b4fc;margin-top:0.5rem;">
+          <i class="fa-brands fa-instagram" style="font-size:1.1rem"></i> Instagram'dan Yaz
+        </a>
+
+        <!-- Response time visual card -->
+        <div style="margin-top:1.5rem;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;position:relative;">
+          <!-- SVG background visual -->
+          <svg viewBox="0 0 420 110" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+            <!-- dark base -->
+            <rect width="420" height="110" fill="#0d1220"/>
+            <!-- soft glow orbs -->
+            <ellipse cx="60" cy="55" rx="80" ry="60" fill="rgba(99,102,241,0.12)"/>
+            <ellipse cx="340" cy="30" rx="100" ry="70" fill="rgba(139,92,246,0.08)"/>
+            <ellipse cx="370" cy="90" rx="60" ry="40" fill="rgba(59,130,246,0.07)"/>
+            <!-- subtle grid lines -->
+            <line x1="0" y1="37" x2="420" y2="37" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+            <line x1="0" y1="73" x2="420" y2="73" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+            <line x1="105" y1="0" x2="105" y2="110" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+            <line x1="210" y1="0" x2="210" y2="110" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+            <line x1="315" y1="0" x2="315" y2="110" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+            <!-- clock ring -->
+            <circle cx="62" cy="55" r="28" fill="rgba(99,102,241,0.08)" stroke="rgba(99,102,241,0.25)" stroke-width="1"/>
+            <circle cx="62" cy="55" r="22" fill="rgba(8,12,20,0.6)"/>
+            <!-- clock face ticks -->
+            <line x1="62" y1="34" x2="62" y2="38" stroke="rgba(139,92,246,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="62" y1="72" x2="62" y2="76" stroke="rgba(139,92,246,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="41" y1="55" x2="45" y2="55" stroke="rgba(139,92,246,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="79" y1="55" x2="83" y2="55" stroke="rgba(139,92,246,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- clock hands -->
+            <line x1="62" y1="55" x2="62" y2="42" stroke="#818cf8" stroke-width="2" stroke-linecap="round"/>
+            <line x1="62" y1="55" x2="72" y2="55" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- center dot -->
+            <circle cx="62" cy="55" r="2.5" fill="#a78bfa"/>
+            <!-- spinning arc overlay -->
+            <circle cx="62" cy="55" r="28" fill="none"
+              stroke="url(#tg)" stroke-width="2"
+              stroke-dasharray="45 131"
+              stroke-linecap="round"
+              transform="rotate(-60 62 55)"/>
+            <defs>
+              <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- text: label -->
+            <text x="106" y="44" font-family="'DM Sans',sans-serif" font-size="10" font-weight="600"
+              fill="rgba(148,163,184,0.7)" letter-spacing="1.5">YANIT SÜRESİ</text>
+            <!-- text: main value -->
+            <text x="106" y="68" font-family="'Syne',sans-serif" font-size="22" font-weight="800"
+              fill="#e0e7ff">3–5 saat</text>
+            <!-- text: sub -->
+            <text x="106" y="84" font-family="'DM Sans',sans-serif" font-size="10"
+              fill="rgba(148,163,184,0.6)">mesaj aldıktan sonra</text>
+            <!-- status pill -->
+            <rect x="280" y="40" width="112" height="28" rx="14" fill="rgba(99,102,241,0.12)" stroke="rgba(99,102,241,0.3)" stroke-width="1"/>
+            <circle cx="298" cy="54" r="4" fill="#818cf8">
+              <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <text x="308" y="58" font-family="'DM Sans',sans-serif" font-size="11" font-weight="600"
+              fill="#a5b4fc">Aktif</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
-<footer class="menu-footer">
-  <div class="footer-logo">Ada Cezve'm</div>
-  <div class="footer-tagline">Her yudumda bir ada, her fincanda bir hatıra…</div>
-  <div class="footer-sep"></div>
-  <div class="footer-address">
-    Bağlar, Yavuz Selim Cd. No:48/A, 54200 Erenler/Sakarya<br>
-    10:30 – 00:00
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">DellaLogic</div>
+        <p>Profesyonel yazılım danışmanlığı, web geliştirme ve dijital dönüşüm çözümleri. İşinizi büyütmek için buradayız.</p>
+        <div class="footer-social" style="margin-top:1.5rem;">
+          <a href="https://instagram.com/dellalogic.co" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com/in/yigitdellaloglu" target="_blank" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/yigitdellaloglu" target="_blank" class="social-link"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="social-link" title="Yakında"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Hizmetler</h4>
+        <ul>
+          <li><a href="#services">Web Sitesi</a></li>
+          <li><a href="#services">QR Menü Sistemi</a></li>
+          <li><a href="#services">Küçük Yazılımlar</a></li>
+          <li><a href="#services">Görsel Programlama</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Şirket</h4>
+        <ul>
+          <li><a href="#why-us">Hakkımızda</a></li>
+          <li><a href="#projects">Projeler</a></li>
+          <li><a href="#testimonials">Referanslar</a></li>
+          <li><a href="#blog">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>İletişim</h4>
+        <ul>
+          <li><a href="mailto:yigitdellaloglu@gmail.com">yigitdellaloglu@gmail.com</a></li>
+          <li><a href="https://wa.me/905530597002" target="_blank">WhatsApp</a></li>
+          <li><a href="https://instagram.com/dellalogic.co" target="_blank">@dellalogic.co</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copyright">© 2026 DellaLogic. Tüm hakları saklıdır.</div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Gizlilik Politikası &bull; Kullanım Koşulları</div>
+    </div>
   </div>
 </footer>
 
-<!-- MODAL -->
-<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
-  <div class="modal-sheet">
-    <div class="drag-handle"></div>
-    <div class="modal-img-area" id="modalImg">
-      <span class="modal-emoji" id="modalEmoji"></span>
-      <div class="modal-img-grad"></div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-name" id="modalName"></div>
-      <div class="modal-price" id="modalPrice"></div>
-      <button class="modal-close" onclick="closeModalDirect()">Kapat</button>
-    </div>
-  </div>
-</div>
-
 <script>
-// ── Category emoji fallbacks ──
-const CAT_EMOJI = {
-  sicak: '☕', soguk: '🧊', bosna: '🫘',
-  caylar: '🍵', tatlilar: '🍰', 'soguk-icecekler': '🥤'
-};
-
-// ── Item emoji fallbacks ──
-const ITEM_EMOJI = {
-  'turk-kahvesi':'☕','dibek-kahvesi':'☕','menengic-kahvesi':'☕',
-  'sutlu-menengic':'☕','dibek-menengic':'☕','espresso':'☕',
-  'double-espresso':'☕','americano':'☕','filtre-kahve':'☕',
-  'capuchino':'☕','latte':'☕','sutlu-americano':'☕',
-  'sutlu-filtre':'☕','sicak-cikolata':'🍫','sahlep':'🌿',
-  'bosna-kahve':'🫘',
-  'ice-latte':'🧋','ice-latte-cilekli':'🍓','ice-americano':'🧊',
-  'ice-caramel-mac':'🧋','ice-filtre':'🧊','ice-mocha':'🍫',
-  'ice-white-mocha':'🥛','frozen-orman':'🫐','frozen-cilekli':'🍓',
-  'milkshake-cilekli':'🍓','milkshake-muzlu':'🍌','milkshake-cikolatali':'🍫',
-  'cay':'🍵','fincan-cay':'🍵','bitki-cayi':'🌿',
-  'fanta-kutu':'🟠','fanta-sise':'🟠',
-  'kola-kutu':'🥤','kola-sise':'🥤','gazoz':'🫧',
-  'meyveli-soda':'🫧','sade-soda':'🫧','churchill':'🥤',
-  'su-kucuk':'💧','su-buyuk':'💧'
-};
-
-let menuData = null;
-
-async function loadMenu() {
-  try {
-    const res = await fetch('./menu.json');
-    menuData = await res.json();
-  } catch(e) {
-    // fallback inline data if fetch fails
-    menuData = getFallbackData();
-  }
-  renderAll();
-}
-
-function renderAll() {
-  renderCategories();
-  renderSections();
-  activateCategory(menuData.categories[0].id);
-  // Hero bg
-  const bg = document.getElementById('heroBg');
-  bg.classList.add('loaded');
-}
-
-function renderCategories() {
-  const scroll = document.getElementById('catScroll');
-  scroll.innerHTML = '';
-  menuData.categories.forEach(cat => {
-    const div = document.createElement('div');
-    div.className = 'cat-item';
-    div.id = 'cat-' + cat.id;
-    div.onclick = () => activateCategory(cat.id);
-
-    const circle = document.createElement('div');
-    circle.className = 'cat-circle';
-
-    // Try image, fallback emoji
-    const img = document.createElement('img');
-    img.src = cat.image;
-    img.onerror = () => { img.style.display='none'; emoji.style.display=''; };
-    const emoji = document.createElement('span');
-    emoji.className = 'cat-emoji';
-    emoji.textContent = cat.icon || CAT_EMOJI[cat.id] || '☕';
-    emoji.style.display = 'none';
-    img.onload = () => { emoji.style.display='none'; };
-    circle.appendChild(img);
-    circle.appendChild(emoji);
-
-    const label = document.createElement('div');
-    label.className = 'cat-label';
-    label.textContent = cat.label;
-
-    div.appendChild(circle);
-    div.appendChild(label);
-    scroll.appendChild(div);
-  });
-}
-
-function renderSections() {
-  const body = document.getElementById('menuBody');
-  body.innerHTML = '';
-  menuData.categories.forEach(cat => {
-    const section = document.createElement('div');
-    section.className = 'menu-section';
-    section.id = 'section-' + cat.id;
-
-    // Special Bosna featured layout
-    if (cat.featured && cat.items.length === 1) {
-      section.innerHTML = `
-        <div class="section-header">
-          <div class="section-icon-wrap">${cat.icon}</div>
-          <div class="section-title-wrap">
-            <div class="section-eyebrow-sm">Özel Servis</div>
-            <div class="section-name">${cat.label}</div>
-          </div>
-        </div>
-        <div class="bosna-banner" onclick="openModal('${cat.items[0].name}','${cat.items[0].price}','${cat.items[0].image}','${ITEM_EMOJI[cat.items[0].id]||'🫘'}')">
-          <div class="bosna-img">
-            <img src="${cat.items[0].image}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
-            <span style="position:relative;z-index:1;font-size:3.5rem">${ITEM_EMOJI[cat.items[0].id]||'🫘'}</span>
-          </div>
-          <div class="bosna-content">
-            ${cat.badge ? `<span class="bosna-badge">${cat.badge}</span>` : ''}
-            <div class="bosna-name">${cat.items[0].name}</div>
-            <div class="bosna-desc">${cat.description||''}</div>
-            <div class="bosna-price">₺ ${cat.items[0].price}</div>
-          </div>
-        </div>
-      `;
-    } else {
-      let html = `
-        <div class="section-header">
-          <div class="section-icon-wrap">${cat.icon}</div>
-          <div class="section-title-wrap">
-            <div class="section-eyebrow-sm">Ada Cezve'm</div>
-            <div class="section-name">${cat.label}</div>
-          </div>
-        </div>
-        <div class="items-list">
-      `;
-      cat.items.forEach(item => {
-        const em = ITEM_EMOJI[item.id] || '';
-        const badgeHtml = item.badge ? `<span style="display:inline-block;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.15em;color:var(--espresso);background:var(--gold);padding:0.1rem 0.45rem;border-radius:20px;margin-left:0.4rem;vertical-align:middle">${item.badge}</span>` : '';
-        const descHtml = item.desc ? `<div class="item-desc">${item.desc}</div>` : '';
-        html += `
-          <div class="item-row" onclick="openModal('${escQ(item.name)}','${item.price}','${escQ(item.image)}','${em}')">
-            <div class="item-img-wrap">
-              <img src="${escQ(item.image)}" onerror="this.style.display='none'" />
-              <span class="item-emoji">${em}</span>
-            </div>
-            <div class="item-info">
-              <div class="item-name">${item.name}${badgeHtml}</div>
-              ${descHtml}
-            </div>
-            <div class="item-price">₺ ${item.price}</div>
-          </div>
-        `;
-      });
-      html += '</div>';
-      section.innerHTML = html;
-    }
-    body.appendChild(section);
+  // Custom cursor
+  const dot = document.getElementById('c-dot');
+  const ring = document.getElementById('c-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  (function loop() {
+    rx = lerp(rx, mx, 0.12);
+    ry = lerp(ry, my, 0.12);
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a, button, .service-card, .project-card, .blog-card, .btn-primary, .btn-secondary').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
   });
 
-  // Info section
-  const info = document.createElement('div');
-  info.className = 'menu-section';
-  info.id = 'section-info';
-  info.innerHTML = `
-    <div class="section-header">
-      <div class="section-icon-wrap">ℹ️</div>
-      <div class="section-title-wrap">
-        <div class="section-eyebrow-sm">Bizi Tanıyın</div>
-        <div class="section-name">Ada Cezve'm</div>
-      </div>
-    </div>
-    <div class="info-section">
-      <div class="info-card-row">
-        <div class="info-tile">
-          <div class="info-tile-icon">🕐</div>
-          <div class="info-tile-label">Çalışma Saatleri</div>
-          <div class="info-tile-value">10:30 – 00:00</div>
-        </div>
-        <div class="info-tile">
-          <div class="info-tile-icon">💳</div>
-          <div class="info-tile-label">Ödeme</div>
-          <div class="info-tile-value">Nakit · Kart</div>
-        </div>
-        <div class="info-tile full">
-          <div class="info-tile-icon">📍</div>
-          <div class="info-tile-label">Adres</div>
-          <div class="info-tile-value">Bağlar, Yavuz Selim Cd. No:48/A, 54200 Erenler/Sakarya</div>
-        </div>
-      </div>
-      <div class="info-tile" style="margin-top:0">
-        <div class="info-tile-icon">⚠️</div>
-        <div class="info-tile-label">Allerji Bilgisi</div>
-        <div class="info-tile-value" style="font-size:0.85rem">Ürünlerimiz gluten, süt, fındık ve yumurta içerebilir. Özel beslenme ihtiyaçlarınız için personelimize danışın.</div>
-      </div>
-    </div>
-  `;
-  body.appendChild(info);
-}
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
 
-function activateCategory(id) {
-  // nav
-  document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
-  const catEl = document.getElementById('cat-' + id);
-  if (catEl) {
-    catEl.classList.add('active');
-    catEl.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
-  }
-  // sections
-  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
-  const sec = document.getElementById('section-' + id);
-  if (sec) sec.classList.add('active');
-  window.scrollTo({ top: document.querySelector('.cat-wrapper').offsetTop - 1, behavior:'smooth' });
-}
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
 
-// Also add Info to category list after render
-function addInfoCat() {
-  const scroll = document.getElementById('catScroll');
-  const div = document.createElement('div');
-  div.className = 'cat-item';
-  div.id = 'cat-info';
-  div.onclick = () => activateCategory('info');
-  div.innerHTML = `
-    <div class="cat-circle"><span class="cat-emoji">ℹ️</span></div>
-    <div class="cat-label">Bilgi</div>
-  `;
-  scroll.appendChild(div);
-}
-
-function escQ(s) {
-  return String(s).replace(/'/g, "\\'");
-}
-
-// Modal
-function openModal(name, price, imgSrc, emoji) {
-  document.getElementById('modalName').textContent = name;
-  document.getElementById('modalPrice').textContent = '₺ ' + price;
-  document.getElementById('modalEmoji').textContent = emoji;
-  const imgEl = document.getElementById('modalImg');
-  // Remove old img if any
-  imgEl.querySelectorAll('img').forEach(i=>i.remove());
-  if (imgSrc) {
-    const img = document.createElement('img');
-    img.src = imgSrc;
-    img.onerror = () => img.remove();
-    img.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;';
-    imgEl.insertBefore(img, imgEl.firstChild);
-  }
-  document.getElementById('modalBg').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('modalBg')) closeModalDirect();
-}
-function closeModalDirect() {
-  document.getElementById('modalBg').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function getFallbackData() {
-  return {
-    restaurant: { name:"Ada Cezve'm", slogan:"Kahve & Lezzet" },
-    categories: []
-  };
-}
-
-loadMenu().then(() => addInfoCat());
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 80
+      ? 'rgba(8,12,20,0.97)'
+      : 'rgba(8,12,20,0.85)';
+  });
 </script>
 </body>
 </html>
